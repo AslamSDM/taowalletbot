@@ -150,14 +150,15 @@ bot.command('transfer', async (ctx) => {
         });
         return;
     }
+ 
     const balance = await getBalance(ctx.session.address);
     const new_board = new InlineKeyboard()
-    new_board.text(`TAO Balance ${balance}`, 'filler').row()
     new_board.text('Transfer to', 'transfer_wallet').row()
     new_board.text('Amount', 'amount').row()
     new_board.text('Transfer', 'transfer_place').row()
-    ctx.reply('Transfer menu', {
-        reply_markup: new_board
+    ctx.reply(`Transfer menu\n<b>$TAO</b> balance: ${balance} `, {
+        reply_markup: new_board,
+        parse_mode: 'HTML'
     });
 })
     
@@ -278,12 +279,12 @@ bot.callbackQuery('transfer', async (ctx) => {
     }
     const balance = await getBalance(ctx.session.address);
     const new_board = new InlineKeyboard()
-    new_board.text(`TAO Balance ${balance}`, 'filler').row()
     new_board.text('Transfer to', 'transfer_wallet').row()
     new_board.text('Amount', 'amount').row()
     new_board.text('Transfer', 'transfer_place').row()
-    ctx.reply('Transfer menu', {
-        reply_markup: new_board
+    ctx.reply(`Transfer menu\n<b>$TAO</b> balance: ${balance} `, {
+        reply_markup: new_board,
+        parse_mode: 'HTML'
     });
 })
 bot.callbackQuery('transfer_wallet', async (ctx) => {

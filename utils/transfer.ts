@@ -17,8 +17,8 @@ export async function transfer(mnemonic: string, to: string, amount: string,keyr
     weight=${info.weight.toString()},
     partialFee=${info.partialFee.toHuman()}
     `);
-
-    await api.tx.balances.transfer(to, amount).signAndSend(sender, { nonce: -1 });
+    const tx = await api.tx.balances.transfer(to, formattedAmount).signAndSend(sender)
+    return tx
 }
 
 export async function getBalance(address: string) {
@@ -39,4 +39,4 @@ export function isValidAddress(address: string): boolean {
     }
 }
 
-// getBalance("5F4tQyWrhfGVcNhoqeiNsR6KjD4wMZ2kfhLj4oHYuyHbZAc3")
+getBalance("5DWMXCHd97EQ4uTFjaokioT9UqceimahyDmHJ3w9MMLuTEkv")
