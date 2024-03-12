@@ -6,7 +6,7 @@ const wsProvider = new WsProvider('wss://private.chain.opentensor.ai');
 // const wsProvider = new WsProvider('wss://test.finney.opentensor.ai:443');
 
 export async function transfer(mnemonic: string, to: string, amount: string,keyring:any) {
-    const formattedAmount = BigInt(parseFloat(amount).toFixed(9));
+    const formattedAmount = BigInt(Math.floor(parseFloat(amount) * 1e9))
 
     const sender = keyring.createFromUri(mnemonic);
     const api = await ApiPromise.create({ provider: wsProvider });
@@ -19,6 +19,14 @@ export async function transfer(mnemonic: string, to: string, amount: string,keyr
   `);
     await api.tx.balances.transfer(to, amount).signAndSend(sender, { nonce: -1 });
 }
+
+export async function getBalance(address: string) {
+    const api = await ApiPromise.create({ provider: wsProvider });
+    const balance = await api.query.system.account(address);
+    console.log(balance)
+    return 
+}
+
 export function isValidAddress(address: string): boolean {
     try {
         decodeAddress(address);
@@ -27,3 +35,5 @@ export function isValidAddress(address: string): boolean {
         return false;
     }
 }
+
+// getBalance()
