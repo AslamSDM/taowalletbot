@@ -25,9 +25,10 @@ export async function getBalance(address: string) {
     const api = await ApiPromise.create({ provider: wsProvider });
     const balance:any = await (await api.query.system.account(address)).toHuman()
     console.log(balance)
-    const formattedBalance = balance?.data?.free
+
+    const formattedBalance = Number(balance?.data?.free)/1e9
     api.disconnect()
-    return formattedBalance??"0"
+    return formattedBalance??0
 }
 
 export function isValidAddress(address: string): boolean {
@@ -39,4 +40,4 @@ export function isValidAddress(address: string): boolean {
     }
 }
 
-// getBalance("5GLAiJoCEwGFTyAdBFwKEot6AwTD3Z7bq64PqTToGg6Mvt1n")
+getBalance("5F4tQyWrhfGVcNhoqeiNsR6KjD4wMZ2kfhLj4oHYuyHbZAc3")
