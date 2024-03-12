@@ -201,8 +201,8 @@ bot.callbackQuery('amount', async (ctx) => {
     await ctx.reply('Please send the amount to transfer');
 })
 bot.callbackQuery('transfer_place', async (ctx) => {
-    const { amount, address, transfer_wallet } = ctx.session;
-    if (amount === "0" || address === "" || transfer_wallet === "") {
+    const { amount, transfer_wallet } = ctx.session;
+    if (amount === "0" || transfer_wallet === "") {
         await ctx.reply('Please set all the fields');
         return;
     } 
