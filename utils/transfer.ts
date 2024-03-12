@@ -6,25 +6,28 @@ const wsProvider = new WsProvider('wss://private.chain.opentensor.ai');
 // const wsProvider = new WsProvider('wss://test.finney.opentensor.ai:443');
 
 export async function transfer(mnemonic: string, to: string, amount: string,keyring:any) {
-    const formattedAmount = BigInt(Math.floor(parseFloat(amount) * 1e9))
-
-    const sender = keyring.createFromUri(mnemonic);
     const api = await ApiPromise.create({ provider: wsProvider });
+    const formattedAmount = BigInt(Math.floor(parseFloat(amount) * 1e9))
+    
+    const sender = keyring.createFromUri(mnemonic);
     const info = await api.tx.balances.transfer(to, (formattedAmount)).paymentInfo(sender);
     
     console.log(`
     class=${info.class.toString()},
     weight=${info.weight.toString()},
     partialFee=${info.partialFee.toHuman()}
-  `);
+    `);
+
     await api.tx.balances.transfer(to, amount).signAndSend(sender, { nonce: -1 });
 }
 
 export async function getBalance(address: string) {
     const api = await ApiPromise.create({ provider: wsProvider });
-    const balance = await api.query.system.account(address);
+    const balance:any = await (await api.query.system.account(address)).toHuman()
     console.log(balance)
-    return 
+    const formattedBalance = balance?.data?.free
+    api.disconnect()
+    return formattedBalance??"0"
 }
 
 export function isValidAddress(address: string): boolean {
@@ -36,4 +39,4 @@ export function isValidAddress(address: string): boolean {
     }
 }
 
-// getBalance()
+// getBalance("5GLAiJoCEwGFTyAdBFwKEot6AwTD3Z7bq64PqTToGg6Mvt1n")
