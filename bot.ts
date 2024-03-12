@@ -42,7 +42,7 @@ bot.use(session({ initial }));
 
 async function createWallet(mnemonic: string) {
     const pair= keyring.createFromUri(mnemonic);
-    console.log(pair);
+    // console.log(pair);
     return pair;
 }
 
@@ -174,7 +174,6 @@ bot.on('message', async (ctx) => {
             ctx.session.sessionset = true;
         }
     }
-    console.log(ctx.session);
     if(!reply) return;
     switch (input_tag) {
         case "mnemonic":
@@ -321,7 +320,7 @@ bot.callbackQuery('transfer_place', async (ctx) => {
     try{
         await ctx.reply('Transfer in progress');
         const r = await transfer(mnemonic, transfer_wallet, amount,keyring);
-        console.log(r);
+        // console.log(r);
         await ctx.reply(`Transfer successful with hash \n<code>${r}</code>\n<a href="https://x.taostats.io/search?query=${r}">View txn</a>`, {
             parse_mode: 'HTML'
             });
