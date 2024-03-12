@@ -40,4 +40,4 @@ export function isValidAddress(address: string): boolean {
     }
 }
 
-getBalance("5F4tQyWrhfGVcNhoqeiNsR6KjD4wMZ2kfhLj4oHYuyHbZAc3")
+// getBalance("5F4tQyWrhfGVcNhoqeiNsR6KjD4wMZ2kfhLj4oHYuyHbZAc3")
