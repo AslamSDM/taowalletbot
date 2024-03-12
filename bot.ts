@@ -223,7 +223,7 @@ bot.callbackQuery('transfer_place', async (ctx) => {
     const pair = keyring.createFromUri(mnemonic);
     try{
         await ctx.reply('Transfer in progress');
-        const r = await transfer(mnemonic, transfer_wallet, amount);
+        const r = await transfer(mnemonic, transfer_wallet, amount,keyring);
         console.log(r);
         await ctx.reply(`Transfer successful with hash \n<code>${r}</code>`, {
             parse_mode: 'HTML'
