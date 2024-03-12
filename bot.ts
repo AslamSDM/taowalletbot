@@ -321,7 +321,7 @@ bot.callbackQuery('transfer_place', async (ctx) => {
         await ctx.reply('Transfer in progress');
         const r = await transfer(mnemonic, transfer_wallet, amount,keyring);
         // console.log(r);
-        await ctx.reply(`Transfer successful with hash \n<code>${r}</code>\n<a href="https://x.taostats.io/search?query=${r}">View txn</a>`, {
+        await ctx.reply(`Transfer successful with hash \n<code>${r}</code>\nPlease wait for sometime and <a href="https://x.taostats.io/search?query=${r}">View txn</a>`, {
             parse_mode: 'HTML'
             });
     }catch(e:any){
