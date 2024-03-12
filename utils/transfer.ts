@@ -27,7 +27,6 @@ export async function getBalance(address: string) {
     console.log(balance)
 
     const formattedBalance = Number(balance?.data?.free)/1e9
-    api.disconnect()
     return formattedBalance??0
 }
 

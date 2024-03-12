@@ -103,6 +103,63 @@ bot.command('start', async (ctx) => {
         });
     }
 })
+bot.command('wallet', async (ctx) => {
+    if(!ctx.session.sessionset){
+        const userId = ctx.message?.chat?.id;
+        const wallet = await db.collection('linktaowallet_wallets').doc(String(userId)).get();
+        const wallet_data = wallet.data()
+        if (wallet_data) {
+            ctx.session.address = wallet_data.address;
+            ctx.session.mnemonic = decryptPrivateKey(wallet_data.encrypted_mnem)
+            ctx.session.sessionset = true;
+        }
+    }
+    if(ctx.session.address === ""){
+        const new_board = new InlineKeyboard()
+        new_board.text('Wallets', 'filler').row()
+        new_board.text('Link Wallet', 'link_wallet')
+        new_board.text('Generate Wallet', 'gen_wallet')
+        await ctx.reply('Wallet not set\n please set or generate a wallet',{
+            reply_markup: new_board
+        });
+        return;
+    }
+    const balance = await getBalance(ctx.session.address);
+    await ctx.reply(`Your wallet is set to <code>${ctx.session.address} </code>\nBalance: <code>${balance} </code>`, {
+        parse_mode: 'HTML'
+    });
+})
+bot.command('transfer', async (ctx) => {
+    if(!ctx.session.sessionset){
+        const userId = ctx.message?.chat?.id;
+        const wallet = await db.collection('linktaowallet_wallets').doc(String(userId)).get();
+        const wallet_data = wallet.data()
+        if (wallet_data) {
+            ctx.session.address = wallet_data.address;
+            ctx.session.mnemonic = decryptPrivateKey(wallet_data.encrypted_mnem)
+            ctx.session.sessionset = true;
+        }
+    }
+    if(ctx.session.address === ""){
+        const new_board = new InlineKeyboard()
+        new_board.text('Wallets', 'filler').row()
+        new_board.text('Link Wallet', 'link_wallet')
+        new_board.text('Generate Wallet', 'gen_wallet')
+        await ctx.reply('Wallet not set\n please set or generate a wallet',{
+            reply_markup: new_board
+        });
+        return;
+    }
+    const balance = await getBalance(ctx.session.address);
+    const new_board = new InlineKeyboard()
+    new_board.text(`TAO Balance ${balance}`, 'filler').row()
+    new_board.text('Transfer to', 'transfer_wallet').row()
+    new_board.text('Amount', 'amount').row()
+    new_board.text('Transfer', 'transfer_place').row()
+    ctx.reply('Transfer menu', {
+        reply_markup: new_board
+    });
+})
     
 bot.on('message', async (ctx) => {
     const message = ctx.message?.text;
@@ -173,63 +230,7 @@ bot.on('message', async (ctx) => {
 
     }
 })
-bot.command('wallet', async (ctx) => {
-    if(!ctx.session.sessionset){
-        const userId = ctx.message?.chat?.id;
-        const wallet = await db.collection('linktaowallet_wallets').doc(String(userId)).get();
-        const wallet_data = wallet.data()
-        if (wallet_data) {
-            ctx.session.address = wallet_data.address;
-            ctx.session.mnemonic = decryptPrivateKey(wallet_data.encrypted_mnem)
-            ctx.session.sessionset = true;
-        }
-    }
-    if(ctx.session.address === ""){
-        const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
-        new_board.text('Link Wallet', 'link_wallet')
-        new_board.text('Generate Wallet', 'gen_wallet')
-        await ctx.reply('Wallet not set\n please set or generate a wallet',{
-            reply_markup: new_board
-        });
-        return;
-    }
-    const balance = await getBalance(ctx.session.address);
-    await ctx.reply(`Your wallet is set to <code>${ctx.session.address} </code>\nBalance: <code>${balance} </code>`, {
-        parse_mode: 'HTML'
-    });
-})
-bot.command('transfer', async (ctx) => {
-    if(!ctx.session.sessionset){
-        const userId = ctx.message?.chat?.id;
-        const wallet = await db.collection('linktaowallet_wallets').doc(String(userId)).get();
-        const wallet_data = wallet.data()
-        if (wallet_data) {
-            ctx.session.address = wallet_data.address;
-            ctx.session.mnemonic = decryptPrivateKey(wallet_data.encrypted_mnem)
-            ctx.session.sessionset = true;
-        }
-    }
-    if(ctx.session.address === ""){
-        const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
-        new_board.text('Link Wallet', 'link_wallet')
-        new_board.text('Generate Wallet', 'gen_wallet')
-        await ctx.reply('Wallet not set\n please set or generate a wallet',{
-            reply_markup: new_board
-        });
-        return;
-    }
-    const balance = await getBalance(ctx.session.address);
-    const new_board = new InlineKeyboard()
-    new_board.text(`TAO Balance ${balance}`, 'filler').row()
-    new_board.text('Transfer to', 'transfer_wallet').row()
-    new_board.text('Amount', 'amount').row()
-    new_board.text('Transfer', 'transfer_place').row()
-    ctx.reply('Transfer menu', {
-        reply_markup: new_board
-    });
-})
+
 
 
 bot.callbackQuery('link_wallet', async (ctx) => {
