@@ -31,5 +31,3 @@ export function isValidAddress(address: string): boolean {
         return false;
     }
 }
-
-transfer("scale wheel ivory shuffle ethics deal wall emotion famous whip cousin slight", "5GLAiJoCEwGFTyAdBFwKEot6AwTD3Z7bq64PqTToGg6Mvt1n", "0")
