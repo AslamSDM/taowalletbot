@@ -95,7 +95,6 @@ bot.command('start', async (ctx) => {
         });
     } else {
         const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
         new_board.text('Link Wallet', 'link_wallet')
         new_board.text('Generate Wallet', 'gen_wallet')
         await ctx.reply('Welcome to the linktaowallet bot\nTo link your wallet, please send your private key', {
@@ -116,7 +115,6 @@ bot.command('wallet', async (ctx) => {
     }
     if(ctx.session.address === ""){
         const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
         new_board.text('Link Wallet', 'link_wallet')
         new_board.text('Generate Wallet', 'gen_wallet')
         await ctx.reply('Wallet not set\n please set or generate a wallet',{
@@ -142,7 +140,6 @@ bot.command('transfer', async (ctx) => {
     }
     if(ctx.session.address === ""){
         const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
         new_board.text('Link Wallet', 'link_wallet')
         new_board.text('Generate Wallet', 'gen_wallet')
         await ctx.reply('Wallet not set\n please set or generate a wallet',{
@@ -258,7 +255,6 @@ bot.callbackQuery('gen_wallet', async (ctx) => {
 })
 bot.callbackQuery('wallet', async (ctx) => {
     const new_board = new InlineKeyboard()
-    new_board.text('Wallets', 'filler').row()
     new_board.text('Link Wallet', 'link_wallet')
     new_board.text('Generate Wallet', 'gen_wallet')
     ctx.reply('Wallet menu', {
@@ -268,7 +264,6 @@ bot.callbackQuery('wallet', async (ctx) => {
 bot.callbackQuery('transfer', async (ctx) => {
     if(ctx.session.address === ""){
         const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
         new_board.text('Link Wallet', 'link_wallet')
         new_board.text('Generate Wallet', 'gen_wallet')
         await ctx.reply('Wallet not set\n please set or generate a wallet',{
@@ -306,7 +301,6 @@ bot.callbackQuery('transfer_place', async (ctx) => {
     const wallet_data = wallet.data()
     if(!wallet_data){
         const new_board = new InlineKeyboard()
-        new_board.text('Wallets', 'filler').row()
         new_board.text('Link Wallet', 'link_wallet')
         new_board.text('Generate Wallet', 'gen_wallet')
         await ctx.reply('Wallet not set\n please set or generate a wallet',{
